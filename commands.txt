@@ -1,5 +1,7 @@
+docker network create leafy-network
+
 docker build -f Dockerfile.frontend -t rag-front .
-docker run -d -p 3000:3000 rag-front
+docker run -d -p 3000:3000 --network leafy-network --name leafy-front rag-front
 
 docker build -f Dockerfile.backend -t rag-back .
-docker run -d -p 8000:8000 rag-back
+docker run -d -p 3000:3000 --network leafy-network --name leafy-front rag-front
