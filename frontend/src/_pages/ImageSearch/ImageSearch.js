@@ -26,7 +26,7 @@ const ImageSearch = () => {
   };
 
   const handleUpload = async () => {
-    const apiUrl = "http://rag-back:8000/imageSearch";
+    const apiUrl = "http://34.224.32.147:8000/imageSearch";
     setShowLossAmount(true); // Show lossAmountTbd when the button is clicked
 
 
