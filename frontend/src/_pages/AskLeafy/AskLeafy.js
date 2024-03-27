@@ -13,7 +13,7 @@ const AskLeafy = () => {
 
   const handleAsk = async () => {
     console.log("Asking Leafy:", question);
-    const apiUrl = "http://34.224.32.147:8000/askTheLlm";
+    const apiUrl = "http://3.229.190.4:8000/askTheLlm";
 
     try {
       const response = await axios.post(

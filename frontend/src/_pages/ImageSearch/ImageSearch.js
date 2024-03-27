@@ -26,7 +26,7 @@ const ImageSearch = () => {
   };
 
   const handleUpload = async () => {
-    const apiUrl = "http://34.224.32.147:8000/imageSearch";
+    const apiUrl = "http://3.229.190.4:8000/imageSearch";
     setShowLossAmount(true); // Show lossAmountTbd when the button is clicked
 
 
