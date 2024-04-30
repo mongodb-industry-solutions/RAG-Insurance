@@ -1,8 +1,8 @@
 FROM node:14 AS build-stage
 WORKDIR /app
-COPY ./frontend/package*.json ./
+COPY ./package*.json ./
 RUN npm install
-COPY ./frontend ./
+COPY . ./
 RUN npm run build
 
 FROM node:14 AS serve-frontend

@@ -34,7 +34,7 @@ class ImageVectorizer:
         return vector
     
 def image_search(image):
-
+    #print("Current Directory:", os.getcwd())
     image_vectorizer = ImageVectorizer()
 
     base64_image = image[image.find(",") + 1:]
@@ -44,8 +44,8 @@ def image_search(image):
     if image.format != "JPEG":
         image = image.convert("RGB")
 
-    image.save("frontend/public/photos/test.jpg", format="JPEG")
-    query_image = 'frontend/public/photos/test.jpg'
+    image.save(os.getcwd() + "/img/test.jpg", format="JPEG")
+    query_image = os.getcwd() + "/img/test.jpg"
     
     query_embedding = image_vectorizer.vectorize(query_image).tolist()
     limit = 4
