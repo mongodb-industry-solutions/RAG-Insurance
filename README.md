@@ -50,3 +50,37 @@ npm install
 npm start
 ```
 
+## Docker Setup Instructions
+
+To run the application using Docker, follow these setup steps:
+
+### Configure Environment Variables
+
+First, update the docker-compose.yml file with your OpenAI API Key and MongoDB Atlas URI. Find the environment section and add your credentials as shown below:
+```
+environment:
+      - OPENAI_API_KEY=your_openai_api_key_here
+      - MONGO_URI=your_mongodb_atlas_uri_here
+```
+### Build the Application
+
+To build the Docker images and start the services, run the following command:
+```
+make build
+```
+
+###  Stopping the Application
+
+To stop all running services, use the command:
+```
+make stop
+````
+
+### Cleaning Up
+
+To remove all images and containers associated with the application, execute:
+```
+make clean
+```
+
+
