@@ -27,7 +27,7 @@ const ImageSearch = () => {
 
   const handleUpload = async () => {
     const API_BASE_IP = "localhost";
-    const apiUrl = `http://${API_BASE_IP}:8000/imageSearch`;
+    const apiUrl = `http://${API_BASE_IP}:8910/imageSearch`;
     setShowLossAmount(true); // Show lossAmountTbd when the button is clicked
 
     try {

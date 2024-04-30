@@ -14,7 +14,7 @@ const AskLeafy = () => {
   const handleAsk = async () => {
     console.log("Asking Leafy:", question);
     const API_BASE_IP = "localhost";
-    const apiUrl = `http://${API_BASE_IP}:8000/askTheLlm`;
+    const apiUrl = `http://${API_BASE_IP}:8910/askTheLlm`;
 
     try {
       const response = await axios.post(
