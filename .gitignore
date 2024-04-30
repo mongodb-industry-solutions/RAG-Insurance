@@ -2,3 +2,4 @@
 .populate_embeddings.py
 /FastAPI
 /frontend/node_modules
+docker-compose.yml
