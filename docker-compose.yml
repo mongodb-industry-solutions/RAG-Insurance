@@ -17,4 +17,7 @@ services:
     ports:
       - "8000:8000"
     restart: always
+    environment:
+      - OPENAI_API_KEY=
+      - MONGO_URI=
     container_name: rag-back
