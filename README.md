@@ -1,4 +1,4 @@
-# Insurance RAG demo - WIP
+# Insurance RAG demo
 
 Create a file named '.env' and store your OpenAI API key and MongoDB connection string in it, follow this format:
 
