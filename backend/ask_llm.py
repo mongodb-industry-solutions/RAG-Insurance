@@ -43,9 +43,9 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
         text_key=text_path, #name of the field to be vectorized
         embedding_key=embedding_path #name of the field to store the embeddings
     )
-    
+    print(question)
     result = search.similarity_search(question, k)
-
+    
     for doc in result:
         #Stripping embedding to reduce the input to the llm, and the _id field because FastAPI doesn't like it
         del doc.metadata['damageDescriptionEmbedding']
@@ -59,7 +59,7 @@ def vector_search(mdb_uri, db_name, collection_name, index_name, embeddings, tex
 def interrogate_llm(question):
     
     vector_search_result = vector_search(mongo_uri, DB_NAME, COLLECTION_NAME, INDEX_NAME, embeddings, "claimDescription", "claimDescriptionEmbedding", question, 3)
-
+    
     response = ask_openai(question, vector_search_result)
 
     return vector_search_result, response

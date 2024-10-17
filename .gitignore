@@ -3,3 +3,4 @@
 /FastAPI
 /frontend/node_modules
 docker-compose.yml
+/backend/.env
