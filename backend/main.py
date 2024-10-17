@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter
 from ask_llm import interrogate_llm
-from image_search import image_search
 
 
 app = FastAPI()
@@ -33,10 +32,4 @@ async def ask_llm(request: Request):
     similar_docs, llm_output = interrogate_llm(question)
     return {"question": question, "result": llm_output, "similar_docs": similar_docs}
 
-@app.post("/imageSearch")
-async def find_similar_images(request: Request):
-    data = await request.json()
-    droppedImage = data.get("droppedImage") 
-    similar_documents = image_search(droppedImage)
-    return {"similar_documents": similar_documents}
     
