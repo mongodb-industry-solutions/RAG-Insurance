@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter
-from ask_llm import interrogate_llm
+from ask_llm import retrieval
 
 
 app = FastAPI()
@@ -29,7 +29,7 @@ router = APIRouter()
 async def ask_llm(request: Request):
     data = await request.json()
     question = data.get("question")
-    similar_docs, llm_output = interrogate_llm(question)
+    similar_docs, llm_output = retrieval(question)
     return {"question": question, "result": llm_output, "similar_docs": similar_docs}
 
     

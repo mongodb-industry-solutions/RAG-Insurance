@@ -71,7 +71,7 @@ def ask_llm(question, semantic_search_results):
 
     return llm.invoke(input_text).content
 
-def interrogate_llm(question):
+def retrieval(question):
     
     search_results = vector_search(question)
     response = ask_llm(question, search_results)
