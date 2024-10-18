@@ -42,7 +42,6 @@ vector_store = MongoDBAtlasVectorSearch(
     relevance_score_fn="cosine",
 )
 
-
 def vector_search(question):
     
     semantic_search_results = vector_store.similarity_search(question, k=3)
@@ -71,7 +70,6 @@ def ask_llm(question, semantic_search_results):
     input_text = json.dumps(body)
 
     return llm.invoke(input_text).content
-
 
 def interrogate_llm(question):
     
