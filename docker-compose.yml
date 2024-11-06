@@ -1,8 +1,8 @@
 services:
   rag-front:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: dockerfile.frontend
     image: rag-front:latest
     ports:
       - "3000:3000"
@@ -11,8 +11,8 @@ services:
 
   rag-back:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: dockerfile.backend
     image: rag-back:latest
     ports:
       - "8000:8000"

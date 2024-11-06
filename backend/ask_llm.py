@@ -2,7 +2,7 @@ from langchain_mongodb.vectorstores import MongoDBAtlasVectorSearch
 from langchain_aws import BedrockEmbeddings, BedrockLLM, ChatBedrock
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import boto3
+from bedrock_client import BedrockClient
 import json
 import os
 
@@ -22,15 +22,24 @@ COLLECTION_NAME = "claims_final"
 MONGODB_COLLECTION = client[DB_NAME][COLLECTION_NAME]
 ATLAS_VECTOR_SEARCH_INDEX_NAME = "vector_index_claim_description_cohere"
 
-# Initialize BedrockEmbeddings with AWS credentials and region
-embeddings = BedrockEmbeddings(
-    model_id="cohere.embed-english-v3",
-)
-
 """ bedrock = boto3.client(service_name='bedrock-runtime'
                            , aws_access_key_id=AWS_ACCESS_KEY_ID
                            , aws_secret_access_key=AWS_SECRET_ACCESS_KEY
                            , region_name=AWS_KEY_REGION) """
+
+# Getting Bedrock Client
+# https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+bedrock_client = BedrockClient(
+    aws_access_key=AWS_ACCESS_KEY_ID,
+    aws_secret_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_KEY_REGION
+)._get_bedrock_client()
+
+# Initialize BedrockEmbeddings with AWS credentials and region
+embeddings = BedrockEmbeddings(
+    client=bedrock_client,
+    model_id="cohere.embed-english-v3"
+)
 
 # Initialize MongoDB Atlas Vector Search
 vector_store = MongoDBAtlasVectorSearch(
@@ -57,7 +66,10 @@ def vector_search(question):
 def ask_llm(question, semantic_search_results):
     
     llm = ChatBedrock(
-    credentials_profile_name="ask-leafy", model_id="anthropic.claude-3-haiku-20240307-v1:0"
+        model_id="anthropic.claude-3-haiku-20240307-v1:0",
+        aws_access_key_id=AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        region=AWS_KEY_REGION
     )
 
     # Create the body with the new question
