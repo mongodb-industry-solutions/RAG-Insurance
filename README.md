@@ -82,5 +82,3 @@ To remove all images and containers associated with the application, execute:
 ```
 make clean
 ```
-
-
