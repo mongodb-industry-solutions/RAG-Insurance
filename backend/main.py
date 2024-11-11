@@ -3,17 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import APIRouter
 from ask_llm import retrieval
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 app = FastAPI()
 
-
-origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:8000"
-]
+origins = os.getenv("ORIGINS").split(",")
 
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +21,10 @@ app.add_middleware(
 )
 
 router = APIRouter()
+
+@app.get("/")
+async def root():
+    return {"status": "OK"}
 
 @app.post("/askTheLlm")
 async def ask_llm(request: Request):

@@ -10,6 +10,9 @@
 !.yarn/releases
 !.yarn/versions
 
+# Mac
+.DS_Store
+
 # testing
 /coverage
 
