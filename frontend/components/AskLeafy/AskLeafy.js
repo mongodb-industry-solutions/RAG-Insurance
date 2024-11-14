@@ -8,12 +8,15 @@ const AskLeafy = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [docs, setDocs] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state for Ask button
+
 
   const handleChange = (event) => {
     setQuestion(event.target.value);
   };
 
   const handleAsk = async () => {
+    setLoading(true); // Start loading
     console.log("Asking Leafy:", question);
     const apiUrl = process.env.NEXT_PUBLIC_ASK_LEAFY_API_URL;
 
@@ -62,9 +65,13 @@ const AskLeafy = () => {
             onChange={handleChange}
             placeholder="Type your question here..."
           />
-          <button className={styles.askBtn} onClick={handleAsk}>
-            Ask
-          </button>
+         <button
+                className={styles.askBtn}
+                onClick={handleAsk}
+                disabled={loading} // Disable button while loading
+              >
+                {loading ? "Asking..." : "Ask"}
+              </button>
           <div className={styles.suggestedQuestions}>
             <p>Suggested Questions:</p>
 
