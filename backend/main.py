@@ -26,11 +26,10 @@ router = APIRouter()
 async def root():
     return {"status": "OK"}
 
+# AskLeafy endpoint
 @app.post("/askTheLlm")
 async def ask_llm(request: Request):
     data = await request.json()
     question = data.get("question")
     similar_docs, llm_output = retrieval(question)
     return {"question": question, "result": llm_output, "similar_docs": similar_docs}
-
-    
