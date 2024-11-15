@@ -13,7 +13,7 @@ __pycache__/
 docker-compose-ecs.yml
 ecs-params.yml
 
-# Data
+# Data (Artifacts and PDF Images)
 data/artifacts/*
 data/pdf-images/*
 
