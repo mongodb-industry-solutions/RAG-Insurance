@@ -8,15 +8,16 @@ const AskLeafy = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [docs, setDocs] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state for Ask button
-
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     setQuestion(event.target.value);
   };
 
   const handleAsk = async () => {
-    setLoading(true); // Start loading
+
+    setLoading(true);
+
     console.log("Asking Leafy:", question);
     const apiUrl = process.env.NEXT_PUBLIC_ASK_LEAFY_API_URL;
 
@@ -36,6 +37,9 @@ const AskLeafy = () => {
       setDocs(response.data.similar_docs);
     } catch (error) {
       console.error("Error:", error);
+    }
+    finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -65,18 +69,18 @@ const AskLeafy = () => {
             onChange={handleChange}
             placeholder="Type your question here..."
           />
-         <button
-                className={styles.askBtn}
-                onClick={handleAsk}
-                disabled={loading} // Disable button while loading
-              >
-                {loading ? "Asking..." : "Ask"}
-              </button>
+           <button
+            className={styles.askBtn}
+            onClick={handleAsk}
+            disabled={loading} // Disable button while loading
+          >
+            {loading ? <div className={styles.spinner}></div> : "Ask"}
+          </button>
           <div className={styles.suggestedQuestions}>
             <p>Suggested Questions:</p>
 
             <button className={styles.suggestion} onClick={handleSuggestionOne}>
-            Summarise claims involving accidental car failures
+              Summarise claims involving accidental car failures
             </button>
             <button className={styles.suggestion} onClick={handleSuggestionTwo}>
               For adverse weather related claims, what is the average loss
