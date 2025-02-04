@@ -27,16 +27,7 @@ const InfoWizard = ({
         Tell me more!
       </Button>
 
-      {/* Small icon button */}
-      <Tooltip
-        trigger={
-          <IconButton aria-label="Info" onClick={() => setOpen((prev) => !prev)}>
-            <Icon glyph={iconGlyph} />
-          </IconButton>
-        }
-      >
-        {tooltipText}
-      </Tooltip>
+      
 
       <Modal open={open} setOpen={setOpen} className={styles.modal}>
         <div className={styles.modalContent}>
