@@ -23,8 +23,8 @@ const Navbar = () => {
               heading: "Instructions and Talk Track",
               content: [
                 {
-                  heading: "RAG for claim processing",
-                  body: "integrating Atlas Vector Search and LLMs, thus allowing insurers to go beyond the limitations of baseline foundational models, making them context-aware by feeding them proprietary data. Through a chat prompt, we can ask questions to the system, and the LLM returns answers to the user and shows what references it used to retrieve the information contained in the response.",
+                  heading: "RAG for Claim Processing",
+                  body: "Integrating Atlas Vector Search and LLMs, allows insurers to go beyond the limitations of baseline foundational models, making them context-aware by feeding them proprietary data. Through a chat prompt, we can ask questions to the system, and the LLM returns answers to the user and shows what references it used to retrieve the information contained in the response.",
                 },
                 {
                   heading: "How to Demo",
@@ -56,12 +56,23 @@ const Navbar = () => {
               heading: "Why MongoDB?",
               content: [
                 {
-                  heading: "The benefits of combining Atlas Vector Search and LLMs in a Claim Processing RAG application:",
-                  body: [
-                        "Speed and accuracy: Having the data centrally organized and ready to be consumed by LLMs, adjusters can find all the necessary information in a fraction of the time.",
-                        "Flexibility: LLMs can answer a wide spectrum of questions, meaning applications require less upfront system design. There is no need to build custom APIs for each piece of information you’re trying to retrieve; just ask the LLM to do it for you.  ",
-                        "Natural interaction: Applications can be interrogated in plain English without programming skills or system training.  ", 
-                        "Data accessibility: Insurers can finally leverage and explore unstructured data that was previously hard to access.." ]
+                  heading: "Speed and Accuracy",
+                  body: "Having the data centrally organized and ready to be consumed by LLMs, adjusters can find all the necessary information in a fraction of the time.",
+                        
+                },
+                {
+                  heading: "Flexibility",
+                  body: "LLMs can answer a wide spectrum of questions, meaning applications require less upfront system design. There is no need to build custom APIs for each piece of information you’re trying to retrieve; just ask the LLM to do it for you.  ",
+                }, 
+                {
+                  heading: "Natural Interaction",
+                  body: "Applications can be interrogated in plain English without programming skills or system training.",
+                        
+                },
+                {
+                  heading: "Data Accessibility",
+                  body: "Insurers can finally leverage and explore unstructured data that was previously hard to access.",
+                        
                 },
               ],
             },
