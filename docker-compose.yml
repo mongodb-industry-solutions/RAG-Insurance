@@ -1,8 +1,9 @@
 services:
   rag-front:
     build:
-      context: ./
-      dockerfile: dockerfile.frontend
+      context: .
+      no_cache: true
+      dockerfile: Dockerfile.frontend
     image: rag-front:latest
     ports:
       - "3000:3000"
@@ -11,9 +12,14 @@ services:
 
   rag-back:
     build:
-      context: ./
-      dockerfile: dockerfile.backend
+      context: .
+      no_cache: true
+      dockerfile: Dockerfile.backend
     image: rag-back:latest
+    volumes:
+      - ~/.aws/credentials:/root/.aws/credentials:ro
+      - ~/.aws/config:/root/.aws/config:ro
+      - ~/.aws/sso/cache:/root/.aws/sso/cache:rw  # Only make cache writable
     ports:
       - "8000:8000"
     restart: always
