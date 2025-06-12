@@ -1,5 +1,9 @@
 # Insurance RAG demo
 
+Claim management with LLMs in RAG and vector search | MongoDB
+
+## Instructions
+
 Create a file named '.env' and store your AWS credentials and MongoDB connection string in it, follow this format:
 
 ```bash
