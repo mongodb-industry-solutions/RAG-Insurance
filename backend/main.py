@@ -10,7 +10,7 @@ load_dotenv()
 
 app = FastAPI()
 
-origins = os.getenv("ORIGINS").split(",")
+#origins = os.getenv("ORIGINS").split(",")
 
 app.add_middleware(
     CORSMiddleware,
