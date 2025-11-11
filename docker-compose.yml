@@ -7,9 +7,7 @@ services:
     image: rag-insurance-front:latest
     environment:
       # Internal Docker network communication (used by Next.js API proxy)
-      - INTERNAL_API_URL=http://rag-insurance-back:8080
-      # External fallback URL (for build-time embedding)
-      - NEXT_PUBLIC_ASK_LEAFY_API_URL=http://localhost:8000/askTheLlm
+      - INTERNAL_API_URL=http://rag-insurance-backend-web-app:80
     ports:
       - "3000:8080"
     restart: always
