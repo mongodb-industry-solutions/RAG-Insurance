@@ -1,0 +1,204 @@
+---
+kind: pipeline
+type: kubernetes
+name: staging
+trigger:
+  branch:
+    - staging
+
+steps:
+  - name: publish-backend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com ## keep same for all demos
+      repo: industrysolutions/rag-insurance-backend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.backend
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: publish-frontend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/rag-insurance-frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.frontend
+      build_args:
+        - NEXT_PUBLIC_WEBSOCKET_URL=wss://rag-insurance-backend.industrysolutions.staging.corp.mongodb.com/TranscribeStreaming
+        - NEXT_PUBLIC_ASK_LEAFY_API_URL=https://rag-insurance-backend.industrysolutions.staging.corp.mongodb.com/askTheLlm
+        - NODE_ENV=staging
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: deploy-backend-staging
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: rag-insurance-backend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/rag-insurance-backend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=rag-insurance-backend.industrysolutions.staging.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.staging.corp.mongodb.com
+      kubernetes_token:
+        from_secret: staging_kubernetes_token
+      values_files: [ "environment/staging.yaml" ]
+    when:
+      event:
+        - push
+
+  - name: deploy-frontend-staging
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: rag-insurance-frontend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/rag-insurance-frontend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=rag-insurance-frontend.industrysolutions.staging.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "env.NEXT_PUBLIC_API_BASE=https://rag-insurance-backend.industrysolutions.staging.corp.mongodb.com"
+        - "serviceAccount.enabled=false"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.staging.corp.mongodb.com
+      kubernetes_token:
+        from_secret: staging_kubernetes_token
+      values_files: [ "environment/staging-frontend.yaml" ]
+    when:
+      event:
+        - push
+---
+kind: pipeline
+type: kubernetes
+name: production
+trigger:
+  branch:
+    - main
+
+steps:
+  - name: publish-backend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com ## keep same for all demos
+      repo: industrysolutions/rag-insurance-backend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.backend
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: publish-frontend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/rag-insurance-frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      dockerfile: dockerfile.frontend
+      build_args:
+        - NEXT_PUBLIC_WEBSOCKET_URL=wss://rag-insurance-backend.industrysolutions.prod.corp.mongodb.com/TranscribeStreaming
+        - NEXT_PUBLIC_ASK_LEAFY_API_URL=https://rag-insurance-backend.industrysolutions.prod.corp.mongodb.com/askTheLlm
+        - NODE_ENV=production
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  - name: deploy-backend-production
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: rag-insurance-backend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/rag-insurance-backend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=rag-insurance-backend.industrysolutions.prod.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.prod.corp.mongodb.com
+      kubernetes_token:
+        from_secret: prod_kubernetes_token
+      values_files: [ "environment/prod.yaml" ]
+    when:
+      event:
+        - push
+
+  - name: deploy-frontend-prod
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: rag-insurance-frontend
+      values:
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/rag-insurance-frontend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=rag-insurance-frontend.industrysolutions.prod.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "env.NEXT_PUBLIC_API_BASE=https://rag-insurance-backend.industrysolutions.prod.corp.mongodb.com"
+        - "serviceAccount.enabled=false"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1024Mi"
+        - "resources.requests.cpu=250m"
+        - "resources.requests.memory=256Mi"
+      api_server: https://api.prod.corp.mongodb.com
+      kubernetes_token:
+        from_secret: prod_kubernetes_token
+      values_files: [ "environment/prod-frontend.yaml" ]
+    when:
+      event:
+        - push

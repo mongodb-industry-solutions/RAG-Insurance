@@ -1,0 +1,39 @@
+services:
+  rag-insurance-front:
+    build:
+      context: .
+      no_cache: true
+      dockerfile: dockerfile.frontend
+    image: rag-insurance-front:latest
+    environment:
+      # Internal Docker network communication (used by Next.js API proxy)
+      - INTERNAL_API_URL=http://rag-insurance-back:8080
+      # External fallback URL (for build-time embedding)
+      - NEXT_PUBLIC_ASK_LEAFY_API_URL=http://localhost:8000/askTheLlm
+    ports:
+      - "3000:8080"
+    restart: always
+    container_name: rag-insurance-front
+    depends_on:
+      - rag-insurance-back
+  rag-insurance-back:
+    build:
+      context: .
+      no_cache: true
+      dockerfile: dockerfile.backend
+    image: rag-insurance-back:latest
+    environment:
+      # Override or add specific environment variables
+      - AWS_KEY_REGION=${AWS_KEY_REGION}
+      - AWS_REGION=${AWS_KEY_REGION}
+      - AWS_DEFAULT_REGION=${AWS_KEY_REGION}
+      - MONGO_URI=${MONGO_URI}
+      - ORIGINS=${ORIGINS}
+    volumes:
+      - ~/.aws/credentials:/root/.aws/credentials:ro
+      - ~/.aws/config:/root/.aws/config:ro
+      - ~/.aws/sso/cache:/root/.aws/sso/cache:rw  # Only make cache writable
+    ports:
+      - "8080:8080"
+    restart: always
+    container_name: rag-insurance-back

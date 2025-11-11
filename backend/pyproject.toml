@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["Julian Boronat <julian.boronat>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+pymongo = "^4.10.1"
+fastapi = "^0.115.3"
+uvicorn = "^0.32.0"
+python-dotenv = "^1.0.1"
+langchain-mongodb = "^0.2.0"
+langchain-aws = "^0.2.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,10 @@
+env:
+  NODE_ENV: prod
+  # Use internal k8s service - bypasses authentication
+  INTERNAL_API_URL: http://rag-insurance-backend-web-app:80
+  # Keep external URL as fallback (though it won't be used due to auth issues)
+  NEXT_PUBLIC_API_BASE: https://rag-insurance-backend.industrysolutions.prod.corp.mongodb.com
+
+# No service account needed for frontend
+serviceAccount:
+  enabled: false

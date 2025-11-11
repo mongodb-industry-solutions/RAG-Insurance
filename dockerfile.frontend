@@ -1,0 +1,23 @@
+FROM node:20.10.0
+
+# Accept build arguments (passed from Drone/Docker build)
+ARG NEXT_PUBLIC_ASK_LEAFY_API_URL=http://localhost:8000/askTheLlm
+ARG NODE_ENV=development
+
+# Set environment variables for Next.js build process
+ENV NEXT_PUBLIC_WEBSOCKET_URL=$NEXT_PUBLIC_WEBSOCKET_URL
+ENV NEXT_PUBLIC_ASK_LEAFY_API_URL=$NEXT_PUBLIC_ASK_LEAFY_API_URL
+ENV NODE_ENV=$NODE_ENV
+ENV PORT=8080
+
+FROM node:20.10.0
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm install --legacy-peer-deps
+COPY frontend/ .
+# Build Next.js app (environment variables are embedded here)
+RUN npm run build
+
+EXPOSE 8080
+CMD ["npm", "start"]
+
