@@ -29,7 +29,7 @@ bedrock_client = BedrockClient(
 # Initialize BedrockEmbeddings with AWS credentials and region
 embeddings = BedrockEmbeddings(
     client=bedrock_client,
-    model_id="cohere.embed-english-v3"
+    model_id=os.getenv("BEDROCK_MODEL_COHERE_EMBED", "cohere.embed-english-v3")
 )
 
 # Initialize MongoDB Atlas Vector Search
@@ -56,10 +56,11 @@ def vector_search(question):
 
 def ask_llm(question, semantic_search_results):
     
-    llm = ChatBedrock(
-        model_id="anthropic.claude-3-haiku-20240307-v1:0",
-        region=AWS_KEY_REGION
-    )
+    haiku_model = os.getenv("BEDROCK_MODEL_HAIKU", "anthropic.claude-3-haiku-20240307-v1:0")
+    kwargs = dict(model_id=haiku_model, region=AWS_KEY_REGION)
+    if haiku_model.startswith("arn:"):
+        kwargs["provider"] = "anthropic"
+    llm = ChatBedrock(**kwargs)
 
     # Create the body with the new question
     body = {

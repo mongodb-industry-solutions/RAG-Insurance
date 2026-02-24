@@ -13,7 +13,7 @@ client = MongoClient(mongo_uri)
 db = client["demo_rag_insurance"]
 collection = db["claims_final"]
 
-embeddings_client = BedrockEmbeddings(model_id="cohere.embed-english-v3",
+embeddings_client = BedrockEmbeddings(model_id=os.getenv("BEDROCK_MODEL_COHERE_EMBED", "cohere.embed-english-v3"),
                                       region_name=AWS_KEY_REGION,
                                       credentials_profile_name="ask-leafy"
                                       )
