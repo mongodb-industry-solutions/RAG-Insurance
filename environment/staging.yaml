@@ -8,6 +8,8 @@ envSecrets:
   # MongoDB Configuration
   MONGO_URI: rag-insurance-secrets
   AWS_KEY_REGION: rag-insurance-secrets
+  BEDROCK_MODEL_HAIKU: rag-insurance-secrets
+  BEDROCK_MODEL_COHERE_EMBED: rag-insurance-secrets
 
 serviceAccount:
   enabled: true
