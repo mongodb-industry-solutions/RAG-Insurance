@@ -31,7 +31,7 @@ const InfoWizard = ({
 
       <Modal open={open} setOpen={setOpen} className={styles.modal}>
         <div className={styles.modalContent}>
-          <Tabs aria-label="info wizard tabs" setSelected={setSelected} selected={selected}>
+          <Tabs aria-label="info wizard tabs" onValueChange={setSelected} value={selected}>
             {sections.map((tab, tabIndex) => (
               <Tab key={tabIndex} name={tab.heading}>
                 {tab.content.map((section, sectionIndex) => (
