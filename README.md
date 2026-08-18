@@ -15,7 +15,7 @@ AWS credentials are resolved through the standard boto3 chain (an `AWS_PROFILE` 
 
 The application uses AWS Bedrock with the following models:
 - **Embeddings**: Cohere Embed English v3 (`cohere.embed-english-v3`)
-- **LLM**: Anthropic Claude 3 Haiku (`anthropic.claude-3-haiku-20240307-v1:0`)
+- **LLM**: Anthropic Claude Haiku 4.5 (`us.anthropic.claude-haiku-4-5-20251001-v1:0`)
 
 ## Setup Instructions
 
