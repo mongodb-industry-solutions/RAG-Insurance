@@ -2,64 +2,62 @@
 
 Claim management with LLMs in RAG and vector search | MongoDB
 
+## Where MongoDB Shines?
+
+[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) stores insurance claim documents and their vector embeddings side by side in a single collection. [Atlas Vector Search](https://www.mongodb.com/products/platform/atlas/vector-search?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) retrieves the claims most semantically similar to a user's question, which are then passed to an LLM to produce a grounded answer.
+
 ## Instructions
 
-Create a file named '.env' and store your AWS credentials and MongoDB connection string in it, follow this format:
+Create a file named `backend/.env` and store your AWS credentials and MongoDB connection string in it, following this format:
 
 ```bash
+AWS_PROFILE=<your aws profile>
 AWS_KEY_REGION=<your aws region>
-MONGO_URI=""
+MONGODB_URI=""
 ```
 
-In MongoDB Atlas create a database called "demo_rag_insurance" and a collection called "claims_final", import the dataset "demo_rag_insurance.claims.json" into the collection. You have to create a Vector Search Index for "claimDescriptionEmbeddingCohere" called "vector_index_claim_description_cohere":
+In MongoDB Atlas create a database called "demo_rag_insurance" and a collection called "claims_final", then import the dataset into it:
 
-```json
-{
-  "fields": [
-    {
-      "type": "vector",
-      "path": "claimDescriptionEmbeddingCohere",
-      "numDimensions": 1024,
-      "similarity": "cosine"
-    }
-  ]
-}
+```bash
+mongoimport --uri "<your MONGODB_URI>" --db demo_rag_insurance --collection claims_final --file data/demo_rag_insurance.claims.json --jsonArray
 ```
 
-The application uses AWS Bedrock with the following models:
+The imported documents don't carry Cohere embeddings yet — generate them by running, from `backend/`:
+
+```bash
+poetry run python embeddingsInitializer.py
+```
+
+Then create the Vector Search index for "claimDescriptionEmbeddingCohere" (named "vector_index_claim_description_cohere") by running:
+
+```bash
+poetry run python scripts/create_vector_search_index.py
+```
+
+The application uses AWS Bedrock with the following models (overridable via `BEDROCK_MODEL_HAIKU` / `BEDROCK_MODEL_COHERE_EMBED`):
 - **Embeddings**: Cohere Embed English v3 (`cohere.embed-english-v3`)
-- **LLM**: Anthropic Claude 3 Haiku (`anthropic.claude-3-haiku-20240307-v1:0`)
+- **LLM**: Claude Haiku 4.5 (`us.anthropic.claude-haiku-4-5-20251001-v1:0`)
 
 ## Setup Instructions
 
 ### Prerequisites
 - AWS Account with Bedrock access
-- MongoDB Atlas cluster
-- Python 3.8+
-- Node.js and npm
+- A [MongoDB Atlas cluster](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel)
+- Python 3.10 - 3.12
+- Node.js 18.17+ and npm
 
 ## Run it Locally
 
 ### Backend
 
-1. (Optional) Set your project description and author information in the `pyproject.toml` file:
-   ```toml
-   description = "Your Description"
-   authors = ["Your Name <you@example.com>"]
-2. Open the project in your preferred IDE (the standard for the team is Visual Studio Code).
-3. Open the Terminal within Visual Studio Code.
-4. Ensure you are in the root project directory where the `makefile` is located.
-5. Execute the following commands:
-  - Poetry start
-    ````bash
-    make poetry_start
-    ````
-  - Poetry install
-    ````bash
-    make poetry_install
-    ````
-6. Verify that the `.venv` folder has been generated within the `/backend` directory.
-7. Make sure to select the Python interpreter from the `.venv` folder. You can change this in Visual Studio Code by clicking on the Python version in the bottom left corner, or searching by `Python: Select Interpreter` in the command palette. For this project, the Python interpreter should be located at `./backend/.venv/bin/python`.
+1. Navigate to the `backend` folder.
+2. Configure Poetry to use an in-project virtualenv and install dependencies:
+   ```bash
+   poetry config virtualenvs.in-project true
+   poetry install
+   ```
+3. Verify that the `.venv` folder has been generated within the `/backend` directory.
+4. Make sure to select the Python interpreter from the `.venv` folder. You can change this in Visual Studio Code by clicking on the Python version in the bottom left corner, or searching by `Python: Select Interpreter` in the command palette. For this project, the Python interpreter should be located at `./backend/.venv/bin/python`.
 
 ### Interact with the API
 
@@ -92,7 +90,7 @@ E.g. `http://localhost:8000/docs`
 2. Add the URL for the API using the following format:
 
 ```bash
-NEXT_PUBLIC_ASK_THE_PDF_API_URL="http://localhost:8000/querythepdf"
+NEXT_PUBLIC_ASK_LEAFY_API_URL=http://localhost:8000/askTheLlm
 ```
 
 ### Run the Frontend
@@ -106,7 +104,7 @@ npm install
 npm run dev
 ````
 
-The frontend will now be accessible at http://localhost:3000 by default, providing a user interface to interact with the image vector search demo.
+The frontend will now be accessible at http://localhost:8080 by default, providing a user interface to interact with the claim RAG demo.
 
 ## Run with Docker (Preferred)
 
