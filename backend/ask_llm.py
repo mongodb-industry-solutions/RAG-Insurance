@@ -1,5 +1,5 @@
 from langchain_mongodb.vectorstores import MongoDBAtlasVectorSearch
-from langchain_aws import BedrockEmbeddings, ChatBedrock
+from langchain_aws import BedrockEmbeddings, ChatBedrockConverse
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bedrock_client import BedrockClient
@@ -10,8 +10,8 @@ import os
 load_dotenv()
 
 # Get MongoDB URI
-mdb_uri = os.getenv("MONGO_URI")
-client = MongoClient(mdb_uri)
+mdb_uri = os.getenv("MONGODB_URI")
+client = MongoClient(mdb_uri, appName="rag-insurance")
 AWS_KEY_REGION = os.getenv("AWS_KEY_REGION")
 
 # Set database and collection names
@@ -56,11 +56,8 @@ def vector_search(question):
 
 def ask_llm(question, semantic_search_results):
     
-    haiku_model = os.getenv("BEDROCK_MODEL_HAIKU", "anthropic.claude-3-haiku-20240307-v1:0")
-    kwargs = dict(model_id=haiku_model, region=AWS_KEY_REGION)
-    if haiku_model.startswith("arn:"):
-        kwargs["provider"] = "anthropic"
-    llm = ChatBedrock(**kwargs)
+    haiku_model = os.getenv("BEDROCK_MODEL_HAIKU", "us.anthropic.claude-haiku-4-5-20251001-v1:0")
+    llm = ChatBedrockConverse(model=haiku_model, region_name=AWS_KEY_REGION)
 
     # Create the body with the new question
     body = {
