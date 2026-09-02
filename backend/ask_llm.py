@@ -11,7 +11,7 @@ load_dotenv()
 
 # Get MongoDB URI
 mdb_uri = os.getenv("MONGODB_URI")
-client = MongoClient(mdb_uri, appName="rag-insurance")
+client = MongoClient(mdb_uri, appName="devrel-demo-vectorsearch-langchain-insurance")
 AWS_KEY_REGION = os.getenv("AWS_KEY_REGION")
 
 # Set database and collection names
@@ -32,7 +32,7 @@ embeddings = BedrockEmbeddings(
     model_id=os.getenv("BEDROCK_MODEL_COHERE_EMBED", "cohere.embed-english-v3")
 )
 
-# Initialize MongoDB Atlas Vector Search
+# Initialize MongoDB Vector Search
 vector_store = MongoDBAtlasVectorSearch(
     collection=MONGODB_COLLECTION,
     embedding=embeddings,

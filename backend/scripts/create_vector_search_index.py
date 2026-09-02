@@ -1,5 +1,5 @@
 """
-Idempotent creation of the MongoDB Atlas Vector Search index that ask_llm.py's
+Idempotent creation of the MongoDB Vector Search index that ask_llm.py's
 vector_store depends on (ATLAS_VECTOR_SEARCH_INDEX_NAME =
 "vector_index_claim_description_cohere"). Run this once against the claims_final
 collection before relying on RAG retrieval.
@@ -37,7 +37,7 @@ def create_index(
 ) -> dict:
     mongo_uri = os.getenv("MONGODB_URI")
 
-    client = MongoClient(mongo_uri, appName="rag-insurance")
+    client = MongoClient(mongo_uri, appName="devrel-demo-vectorsearch-langchain-insurance")
     collection = client[DB_NAME][COLLECTION_NAME]
 
     index_config = {

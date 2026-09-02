@@ -8,7 +8,7 @@ load_dotenv()
 AWS_KEY_REGION = os.getenv('AWS_KEY_REGION')
 
 mongo_uri = os.getenv("MONGODB_URI")
-client = MongoClient(mongo_uri, appName="rag-insurance")
+client = MongoClient(mongo_uri, appName="devrel-demo-vectorsearch-langchain-insurance")
 db = client["demo_rag_insurance"]
 collection = db["claims_final"]
 
