@@ -19,7 +19,7 @@ formal schema — this application defines no JSON Schema validators.
 Seeded via `mongoimport` from `data/demo_rag_insurance.claims.json`. Each document
 already carries legacy embeddings from an earlier model; `embeddingsInitializer.py`
 adds `claimDescriptionEmbeddingCohere` afterwards by embedding `claimDescription` with
-Bedrock's Cohere model. That field is the only one Atlas Vector Search runs against.
+Bedrock's Cohere model. That field is the only one MongoDB Vector Search runs against.
 
 | Field | Type | Notes |
 | --- | --- | --- |

@@ -3,7 +3,7 @@
 Guidance for AI coding agents working in this repository.
 
 This is a RAG demo for insurance claims. A FastAPI backend (`backend/`) embeds a
-question with Cohere via AWS Bedrock, runs Atlas Vector Search over the
+question with Cohere via AWS Bedrock, runs MongoDB Vector Search over the
 `claims_final` collection, and asks a Bedrock Claude Haiku model to answer grounded
 in the retrieved claims. A Next.js frontend (`frontend/`) calls the backend's single
 `POST /askTheLlm` endpoint and renders the answer alongside the source claims.

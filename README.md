@@ -4,7 +4,7 @@ Claim management with LLMs in RAG and vector search | MongoDB
 
 ## Where MongoDB Shines?
 
-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) stores insurance claim documents and their vector embeddings side by side in a single collection. [Atlas Vector Search](https://www.mongodb.com/products/platform/atlas/vector-search?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) retrieves the claims most semantically similar to a user's question, which are then passed to an LLM to produce a grounded answer.
+[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) stores insurance claim documents and their vector embeddings side by side in a single collection. [MongoDB Vector Search](https://www.mongodb.com/products/platform/atlas/vector-search?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel) retrieves the claims most semantically similar to a user's question, which are then passed to an LLM to produce a grounded answer.
 
 ## Instructions
 
