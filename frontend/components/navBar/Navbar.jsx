@@ -24,7 +24,7 @@ const Navbar = () => {
               content: [
                 {
                   heading: "RAG for Claim Processing",
-                  body: "Integrating Atlas Vector Search and LLMs, allows insurers to go beyond the limitations of baseline foundational models, making them context-aware by feeding them proprietary data. Through a chat prompt, we can ask questions to the system, and the LLM returns answers to the user and shows what references it used to retrieve the information contained in the response.",
+                  body: "Integrating MongoDB Vector Search and LLMs, allows insurers to go beyond the limitations of baseline foundational models, making them context-aware by feeding them proprietary data. Through a chat prompt, we can ask questions to the system, and the LLM returns answers to the user and shows what references it used to retrieve the information contained in the response.",
                 },
                 {
                   heading: "How to Demo",
