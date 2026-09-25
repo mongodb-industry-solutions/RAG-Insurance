@@ -43,8 +43,7 @@ The application uses AWS Bedrock with the following models (overridable via `BED
 ### Prerequisites
 - AWS Account with Bedrock access
 - A [MongoDB Atlas cluster](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=rag_insurance&utm_term=learning.fuel)
-- Python 3.10 - 3.12
-- Node.js 18.17+ and npm
+- Node.js 18.18+ and npm
 
 ## Run it Locally
 
